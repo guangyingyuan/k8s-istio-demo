@@ -212,7 +212,7 @@ apt-get install -y kubectl socat
 Install Helm binary locally:
 
 ```bash
-curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
+curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
 ```
 
 Install Tiller (the Helm server-side component) into the Kubernetes Cluster:
@@ -342,7 +342,7 @@ Create a storage class based on the Ceph RBD volume plugin:
 ```bash
 kubectl create -f https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/storageclass.yaml
 # Give Ceph some time to create pool...
-sleep 20
+sleep 10
 ```
 
 Set `rook-ceph-block` as default Storage Class:
@@ -611,7 +611,7 @@ Install ElasticSearch operator:
 
 ```bash
 helm install --wait --name elasticsearch-operator es-operator/elasticsearch-operator --set rbac.enabled=True --namespace es-operator
-sleep 30
+sleep 10
 ```
 
 Check how the operator looks like:
@@ -638,7 +638,7 @@ helm install --wait --name=elasticsearch --namespace logging es-operator/elastic
   --set cerebro.enabled=true \
   --set storage.class=rook-ceph-block \
   --set clientReplicas=3,masterReplicas=3,dataReplicas=3
-sleep 700
+sleep 599
 ```
 
 Show ElasticSearch components:
@@ -768,6 +768,7 @@ Either download Istio directly from [https://github.com/istio/istio/releases](ht
 ```bash
 test -d files || mkdir files
 cd files
+ISTIO_VERSION="1.0.5"
 curl -sL https://git.io/getLatestIstio | sh -
 ```
 
@@ -780,7 +781,7 @@ cd istio*
 Install Istio using Helm:
 
 ```bash
-helm install --wait --timeout 2500 --name istio --namespace istio-system install/kubernetes/helm/istio \
+helm install --wait --name istio --namespace istio-system install/kubernetes/helm/istio \
   --set gateways.istio-ingressgateway.type=NodePort \
   --set gateways.istio-egressgateway.type=NodePort \
   --set grafana.enabled=true \
@@ -986,7 +987,7 @@ Define the ingress gateway for the application:
 ```bash
 cat samples/bookinfo/networking/bookinfo-gateway.yaml
 kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
-sleep 5
+sleep 10
 ```
 
 Confirm the gateway has been created:
